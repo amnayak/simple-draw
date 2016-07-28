@@ -1,17 +1,3 @@
-/* Name: Amukta Nayak
- * Date: 3/19/14
- * Period 7
- * Time taken: ~3.5 hrs (  not-so-SimpleDraw :(  )
- * Reflection: The addition of JFileChooser and the ability to import/export files
- * was quite straightforward. The main challenge was to implement the ability to
- * change/ scale the cell length and width. 
- * 
- * Problems arose from the fact that classic 2D arrays have a static size.
- * To compensate, the 2D array was initialized at 500x500. As a result, program
- * doesn't run as well anymore on the typical computer. Unfortunately, dynamic scaling 
- * isn't too reliable-- extremely large images cannot fit.
- * 
- **/
 import java.util.*;
 import java.io.*;
 import java.awt.*;
@@ -19,7 +5,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.border.*;
-public class SimpleDraw2ANayakPer7 implements ActionListener, ChangeListener, MouseListener, MouseMotionListener {
+public class SimpleDraw implements ActionListener, ChangeListener, MouseListener, MouseMotionListener {
     JFrame window;
     MySketchPad2 drawPanel;
 
@@ -37,13 +23,13 @@ public class SimpleDraw2ANayakPer7 implements ActionListener, ChangeListener, Mo
     Color [][] boardArray;
 
     int length = 20; // y, i
-    int width = 20; // x, j    
+    int width = 20; // x, j
     int cellWidth = 20;
     int cellLength = 20;
 
     public static void main(String[] args) {
-        SimpleDraw2ANayakPer7 sd = new SimpleDraw2ANayakPer7();
-        sd.start();          
+        SimpleDraw sd = new SimpleDraw();
+        sd.start();
     }
 
     public void start(){
@@ -51,10 +37,10 @@ public class SimpleDraw2ANayakPer7 implements ActionListener, ChangeListener, Mo
         for (int i =0; i< boardArray.length; i++){
             for (int j =0; j< boardArray[0].length; j++){
                 boardArray[i][j] = Color.WHITE;
-            }                
+            }
         }
         //Java window frame
-        window = new JFrame("SimpleDraw2ANayakPer7");
+        window = new JFrame("SimpleDraw");
         window.getContentPane().setLayout(new FlowLayout());
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setBounds(200, 200 , (cellWidth*width) + 50, (length*cellLength) + 200);
@@ -88,11 +74,11 @@ public class SimpleDraw2ANayakPer7 implements ActionListener, ChangeListener, Mo
         panel2.setPreferredSize(new Dimension(500,150));
 
         // SUBPANELS panel 1
-        drawPanel = new MySketchPad2(); 
+        drawPanel = new MySketchPad2();
         drawPanel.setPreferredSize(new Dimension( (1+(cellWidth*width)), ((length*cellLength)+1)));
         drawPanel.addMouseMotionListener(this);
         drawPanel.addMouseListener(this);
-        panel1.add(drawPanel);      
+        panel1.add(drawPanel);
 
         // SUBPANELS panel 2
         JPanel panel21 = new JPanel();
@@ -120,19 +106,19 @@ public class SimpleDraw2ANayakPer7 implements ActionListener, ChangeListener, Mo
         b.addActionListener(this);
         panel22.add(b);
 
-        panel2.add(panel21);        
+        panel2.add(panel21);
         panel2.add(panel22);
 
-        //GUI components to JFrame 
+        //GUI components to JFrame
         window.getContentPane().add(panel1);
         window.getContentPane().add(panel2);
 
         // Make the window visible
-        window.setVisible(true);      
+        window.setVisible(true);
 
     }
 
-    public void actionPerformed(ActionEvent ae) {    
+    public void actionPerformed(ActionEvent ae) {
         if(red.isSelected()){
             col = Color.RED;
         } else if (blue.isSelected()){
@@ -140,7 +126,7 @@ public class SimpleDraw2ANayakPer7 implements ActionListener, ChangeListener, Mo
         } else if (green.isSelected()){
             col = Color.GREEN;
         } else if (ae.getSource() == custom){
-            JColorChooser cc = new JColorChooser();           
+            JColorChooser cc = new JColorChooser();
             col = cc.showDialog(window, "Color Picker", col);
         }
 
@@ -148,14 +134,14 @@ public class SimpleDraw2ANayakPer7 implements ActionListener, ChangeListener, Mo
             for (int i =0; i< boardArray.length; i++){
                 for (int j =0; j< boardArray[0].length; j++){
                     boardArray[i][j] = Color.WHITE;
-                }                
+                }
             }
             drawPanel.repaint();
         }
 
         if(ae.getSource() == open){
             JFileChooser fc = new JFileChooser();
-            fc.showOpenDialog(window);            
+            fc.showOpenDialog(window);
             File in = fc.getSelectedFile();
 
             openFile( in );
@@ -167,7 +153,7 @@ public class SimpleDraw2ANayakPer7 implements ActionListener, ChangeListener, Mo
 
             saveFile(out);
         }
-    }   
+    }
 
     public void openFile (File f){
         Scanner in = null;
@@ -197,7 +183,7 @@ public class SimpleDraw2ANayakPer7 implements ActionListener, ChangeListener, Mo
             while ( input.charAt(0) == '#' ){
                 input = in.nextLine();
             }
-            max = Integer.parseInt(input.trim());                        
+            max = Integer.parseInt(input.trim());
             input = in.nextLine();
 
             cellLength *=  (length/newH);
@@ -208,7 +194,7 @@ public class SimpleDraw2ANayakPer7 implements ActionListener, ChangeListener, Mo
             } else{
 
                 length = newH; //i y
-                width = newW; // jx    
+                width = newW; // jx
             }
 
             Scanner line = new Scanner(input);
@@ -219,18 +205,18 @@ public class SimpleDraw2ANayakPer7 implements ActionListener, ChangeListener, Mo
                     while (in.hasNext() && (!line.hasNext() || input.charAt(0) == '#' )){
                         input = in.nextLine();
                         line = new Scanner(input);
-                    }                                        
+                    }
                     int r = line.nextInt();
                     int g = line.nextInt();
-                    int b = line.nextInt();                    
+                    int b = line.nextInt();
                     boardArray[i][j] = new Color (r,g,b);
-                    window.repaint();   
-                } 
-            }            
+                    window.repaint();
+                }
+            }
         } else{
 
             System.out.println("File Format Error");
-        }                
+        }
     }
 
     public void saveFile (File f){
@@ -259,17 +245,17 @@ public class SimpleDraw2ANayakPer7 implements ActionListener, ChangeListener, Mo
     }
 
     public void stateChanged(ChangeEvent e) {
-    } 
+    }
 
-    public void mouseClicked(MouseEvent e){                  
+    public void mouseClicked(MouseEvent e){
         int j = e.getX() /cellWidth;
         int i = e.getY() /cellLength;
         if (e.getButton() == MouseEvent.BUTTON1){
             boardArray[i][j] = col;
-        } 
+        }
         if (e.getButton() == MouseEvent.BUTTON3){
             boardArray[i][j] = Color.WHITE;
-        } 
+        }
         window.repaint();
     }
 
@@ -299,10 +285,10 @@ public class SimpleDraw2ANayakPer7 implements ActionListener, ChangeListener, Mo
 
             if (button == 1){
                 boardArray[i][j] = col;
-            } 
+            }
             if (button == 3){
                 boardArray[i][j] = Color.WHITE;
-            }  
+            }
         }
 
         drawPanel.repaint();
@@ -314,13 +300,13 @@ public class SimpleDraw2ANayakPer7 implements ActionListener, ChangeListener, Mo
     private class MySketchPad2 extends JPanel {
         public void paintComponent(Graphics g) {
             setBackground(Color.WHITE);
-            super.paintComponent(g);        
+            super.paintComponent(g);
 
             Graphics2D g2 = (Graphics2D)g;
-            g2.setColor(Color.GRAY);            
+            g2.setColor(Color.GRAY);
             //Always keep the grid
             for (int j =0; j<= (width+1); j++){ // Vertical Lines, X changes
-                g2.drawLine(j*cellWidth, 0, j*cellWidth, length*cellLength);    
+                g2.drawLine(j*cellWidth, 0, j*cellWidth, length*cellLength);
             }
 
             for (int i =0; i<= (length+1); i++){ //Horizontal Lines, Y Canges
@@ -331,10 +317,10 @@ public class SimpleDraw2ANayakPer7 implements ActionListener, ChangeListener, Mo
                 for (int j =0; j< boardArray[0].length; j++){
                     g2.setColor((boardArray[i][j]));
                     g2.fillRect( (j*cellWidth)+1, (i*cellLength) +1, cellWidth - 1, cellLength - 1);
-                }                
-            }     
+                }
+            }
 
-            g2.setColor(Color.GRAY);            
+            g2.setColor(Color.GRAY);
         }
     }
 }
