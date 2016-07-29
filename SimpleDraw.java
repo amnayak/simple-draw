@@ -150,8 +150,9 @@ public class SimpleDraw implements ActionListener, ChangeListener, MouseListener
             JFileChooser fc = new JFileChooser();
             fc.showSaveDialog(window);
             File out = new File (fc.getSelectedFile() + ".ppm");
-
-            saveFile(out);
+            if (fc.getSelectedFile() != null){
+              saveFile(out);
+            }
         }
     }
 
