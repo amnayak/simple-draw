@@ -1,4 +1,8 @@
+#####A simple drawing tool
+
 cd to directory
 
-javac SimpleDraw.java
-java SimpleDraw
+first `javac SimpleDraw.java`
+
+then
+`java SimpleDraw`
